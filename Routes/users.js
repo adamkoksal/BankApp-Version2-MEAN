@@ -1,7 +1,8 @@
-const express = require("express");
+const express = require("../node_modules/express");
 const router = express.Router();
-const { User, validate } = require("../Database/User");
-const { Account } = require("../Database/Account");
+const { User, validate } = require("../model/User");
+const { Account } = require("../model/Account");
+const bcrypt = require("bcrypt");
 
 router.get("/", async (req, res) => {
   if (req.query.username) {
@@ -26,14 +27,23 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(`Error: ${error.details[0].message}`);
-  await new User(req.body)
+
+  const salt = await bcrypt.genSalt(10);
+
+  await new User({
+    username: req.body.username.toLowerCase(),
+    password: await bcrypt.hash(req.body.password, salt),
+    address: req.body.address,
+    securityQuestion: req.body.securityQuestion,
+    securityQuestionAnswer: req.body.securityQuestionAnswer,
+  })
     .save()
     .then(async (data) => {
-      await Account({
+      await new Account({
         userId: data._id,
         name: "Checking",
       }).save();
-      await Account({
+      await new Account({
         userId: data._id,
         name: "Savings",
       }).save();

@@ -1,11 +1,11 @@
 const express = require("express");
 const app = express();
-const ConnectDB = require("./Database/Connection");
-const users = require("./Routes/users");
-const accounts = require("./Routes/accounts");
-const transactions = require("./Routes/transactions");
+const users = require("./routes/users");
+const accounts = require("./routes/accounts");
+const transactions = require("./routes/transactions");
 
-ConnectDB();
+require("./startup/db")();
+
 app.use(express.json());
 app.use("/api/users", users);
 app.use("/api/accounts", accounts);                      

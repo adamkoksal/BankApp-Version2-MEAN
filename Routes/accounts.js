@@ -1,7 +1,7 @@
-const express = require("express");
+const express = require("../node_modules/express");
 const router = express.Router();
-const { Account, validate } = require("../Database/Account");
-const { User } = require("../Database/User");
+const { Account, validate } = require("../model/Account");
+const { User } = require("../model/User");
 
 router.get("/", async (req, res) => {
   await Account.find()
@@ -18,7 +18,7 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(`Error: ${error.details[0].message}`);
-// Burda bi sikinti var
+
   const user = await User.findById(req.body.userId).catch((err) =>
     console.log(err.message)
   );
@@ -32,4 +32,4 @@ router.post("/", async (req, res) => {
 
 module.exports = router;
 
-// JOI VALIDATION
+

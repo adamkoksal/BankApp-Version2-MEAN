@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
+mongoose.set('useCreateIndex', true);
+
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
+    unique: true
   },
   password: {
     type: String,
