@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-module.exports = function validatePost(body) {
+function validatePost(body) {
   const schema = {
     username: Joi.string().required().min(3).max(55),
     password: Joi.string().required().min(6).max(55),
@@ -45,35 +45,40 @@ module.exports = function validatePost(body) {
     securityQuestionAnswer: Joi.string().required().min(3).max(55),
   };
   return Joi.validate(body, schema);
-};
+}
 
-module.exports = function validateUsername(body) {
+function validateUsername(body) {
   const schema = {
     username: Joi.string().required().min(3).max(55),
   };
   return Joi.validate(body, schema);
-};
+}
 
-module.exports = function validatePassword(body) {
+function validatePassword(body) {
   const schema = {
     password: Joi.string().required().min(6).max(55),
   };
   return Joi.validate(body, schema);
-};
+}
 
-module.exports = function validateAddress(body) {
+function validateAddress(body) {
   const schema = {
     address: Joi.string().required().max(55),
   };
   return Joi.validate(body, schema);
-};
+}
 
-module.exports = function validateSecurityQuestion(body) {
+function validateSecurityQuestion(body) {
   const schema = {
-    SecurityQuestion: Joi.string().required().min(3).max(55),
-    SecurityQuestionAnswer: Joi.string().required().min(3).max(55),
+    securityQuestion: Joi.string().required().min(3).max(55),
+    securityQuestionAnswer: Joi.string().required().min(3).max(55),
   };
   return Joi.validate(body, schema);
-};
+}
 
-exports.User = mongoose.model("user", userSchema);
+module.exports.User = mongoose.model("user", userSchema);
+module.exports.validatePost = validatePost;
+module.exports.validateUsername = validateUsername;
+module.exports.validatePassword = validatePassword;
+module.exports.validateAddress = validateAddress;
+module.exports.validateSecurityQuestion = validateSecurityQuestion;

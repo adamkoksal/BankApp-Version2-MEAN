@@ -8,8 +8,6 @@ const {
 } = require("../model/Transaction");
 const { Account } = require("../model/Account");
 
-//Deposit ve digerleriyle devam edilecek
-
 router.get("/:id", async (req, res) => {
   Transaction.find()
     .or([{ receiverId: req.params.id }, { initiatorId: req.params.id }])

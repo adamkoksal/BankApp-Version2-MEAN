@@ -25,5 +25,13 @@ function validate(body) {
   return Joi.validate(body, schema);
 }
 
+function validatePut(body) {
+  const schema = {
+    name: Joi.string().required(),
+  };
+  return Joi.validate(body, schema);
+}
+
 exports.Account = mongoose.model("account", accountSchema);
 exports.validate = validate;
+exports.validatePut = validatePut;

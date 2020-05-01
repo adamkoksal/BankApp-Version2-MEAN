@@ -1,16 +1,23 @@
 const express = require("../node_modules/express");
 const router = express.Router();
-const { User, validate } = require("../model/User");
+const {
+  User,
+  validatePost,
+  validateUsername,
+  validatePassword,
+  validateAddress,
+  validateSecurityQuestion,
+} = require("../model/User");
 const { Account } = require("../model/Account");
 const bcrypt = require("bcrypt");
 
 router.get("/", async (req, res) => {
   if (req.query.username) {
-    await User.find({
+    const user = await User.findOne({
       username: new RegExp("\\b" + req.query.username + "\\b", "i"),
-    })
-      .then((data) => res.send(data))
-      .catch((err) => res.status(400).send(err.message));
+    }).catch((err) => res.status(400).send(err.message));
+    if (!user) return res.status(400).send("Invalid Username");
+    return res.send(user);
   } else {
     await User.find()
       .then((data) => res.send(data))
@@ -25,7 +32,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { error } = validate(req.body);
+  const { error } = validatePost(req.body);
   if (error) return res.status(400).send(`Error: ${error.details[0].message}`);
 
   const salt = await bcrypt.genSalt(10);
@@ -35,7 +42,10 @@ router.post("/", async (req, res) => {
     password: await bcrypt.hash(req.body.password, salt),
     address: req.body.address,
     securityQuestion: req.body.securityQuestion,
-    securityQuestionAnswer: await bcrypt.hash(req.body.securityQuestionAnswer),
+    securityQuestionAnswer: await bcrypt.hash(
+      req.body.securityQuestionAnswer,
+      salt
+    ),
   })
     .save()
     .then(async (data) => {
@@ -52,6 +62,53 @@ router.post("/", async (req, res) => {
     .catch((err) => res.status(400).send(err.message));
 });
 
-// Put methodlarina basla
+router.put("/username/:id", async (req, res) => {
+  const { error } = validateUsername(req.body);
+  if (error) return res.status(400).send(`Error: ${error.details[0].message}`);
+
+  await User.findByIdAndUpdate(req.params.id, req.body)
+    .then(() => res.send("Username update successful"))
+    .catch((err) => res.status(400).send(err.message));
+});
+
+router.put("/password/:id", async (req, res) => {
+  const { error } = validatePassword(req.body);
+  if (error) return res.status(400).send(`Error: ${error.details[0].message}`);
+
+  const salt = await bcrypt.genSalt(10);
+
+  await User.findByIdAndUpdate(req.params.id, {
+    password: await bcrypt.hash(req.body.password, salt),
+  })
+    .then(() => res.send("Password update successful"))
+    .catch((err) => res.status(400).send(err.message));
+});
+
+router.put("/address/:id", async (req, res) => {
+  const { error } = validateAddress(req.body);
+  if (error) return res.status(400).send(`Error: ${error.details[0].message}`);
+
+  await User.findByIdAndUpdate(req.params.id, req.body)
+    .then(() => res.send("Address update successful"))
+    .catch((err) => res.status(400).send(err.message));
+});
+
+router.put("/security-question/:id", async (req, res) => {
+  const { error } = validateSecurityQuestion(req.body);
+  if (error) return res.status(400).send(`Error: ${error.details[0].message}`);
+
+  const salt = await bcrypt.genSalt(10);
+
+  update = {
+    securityQuestion: req.body.securityQuestion,
+    securityQuestionAnswer: await bcrypt.hash(
+      req.body.securityQuestionAnswer,
+      salt
+    ),
+  };
+  await User.findByIdAndUpdate(req.params.id, update)
+    .then(() => res.send("Security Question update successful"))
+    .catch((err) => res.status(400).send(err.message));
+});
 
 module.exports = router;

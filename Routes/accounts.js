@@ -1,12 +1,18 @@
 const express = require("../node_modules/express");
 const router = express.Router();
-const { Account, validate } = require("../model/Account");
+const { Account, validate, validatePut } = require("../model/Account");
 const { User } = require("../model/User");
 
 router.get("/", async (req, res) => {
-  await Account.find()
-    .then((data) => res.send(data))
-    .catch((err) => res.status(400).send(err.message));
+  if (req.query.userId) {
+    await Account.find({ userId: req.query.userId })
+      .then((data) => res.send(data))
+      .catch((err) => res.status(400).send(err.message));
+  } else {
+    await Account.find()
+      .then((data) => res.send(data))
+      .catch((err) => res.status(400).send(err.message));
+  }
 });
 
 router.get("/:id", async (req, res) => {
@@ -30,6 +36,19 @@ router.post("/", async (req, res) => {
     .catch((err) => res.status(400).send(err.message));
 });
 
+router.put("/:id", async (req, res) => {
+  const { error } = validatePut(req.body);
+  if (error) return res.status(400).send(`Error: ${error.details[0].message}`);
+
+  await Account.findByIdAndUpdate(req.params.id, req.body)
+    .then(() => res.send("Account name update successful"))
+    .catch((err) => res.status(400).send(err.message));
+});
+
+router.delete("/:id", async (req, res) => {
+  await Account.findByIdAndDelete(req.params.id)
+    .then(() => res.send("Account deleted"))
+    .catch((err) => res.status(400).send(err.message));
+});
+
 module.exports = router;
-
-
