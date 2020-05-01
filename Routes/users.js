@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
     password: await bcrypt.hash(req.body.password, salt),
     address: req.body.address,
     securityQuestion: req.body.securityQuestion,
-    securityQuestionAnswer: req.body.securityQuestionAnswer,
+    securityQuestionAnswer: await bcrypt.hash(req.body.securityQuestionAnswer),
   })
     .save()
     .then(async (data) => {
@@ -51,5 +51,7 @@ router.post("/", async (req, res) => {
     })
     .catch((err) => res.status(400).send(err.message));
 });
+
+// Put methodlarina basla
 
 module.exports = router;

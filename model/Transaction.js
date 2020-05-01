@@ -38,4 +38,13 @@ exports.validateWithdrawal = function (body) {
   return Joi.validate(body, schema);
 };
 
+exports.validateTransfer = function (body) {
+  const schema = {
+    initiatorId: Joi.string().required(),
+    receiverId: Joi.string().required(),
+    amount: Joi.number().required(),
+  };
+  return Joi.validate(body, schema);
+};
+
 exports.Transaction = mongoose.model("transaction", transactionSchema);
