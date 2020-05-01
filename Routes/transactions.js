@@ -64,7 +64,9 @@ router.post("/transfer", async (req, res) => {
   if (error) return res.status(400).send(`Error: ${error.details[0].message}`);
 
   if (req.body.receiverId === req.body.initiatorId)
-    return res.status(400).send("Receiver Id and Initiator Id cannot be the same.");
+    return res
+      .status(400)
+      .send("Receiver Id and Initiator Id cannot be the same.");
 
   const initiator = await Account.findById(req.body.initiatorId).catch((err) =>
     console.log(err.message)
@@ -97,6 +99,52 @@ router.post("/transfer", async (req, res) => {
   await receiver
     .updateOne({ balance: receiver.balance + req.body.amount })
     .then(() => res.send("Transfer Successful"))
+    .catch((err) => {
+      console.log(err.message);
+      res.status(400).send("Something went wrong. Check the console.");
+    });
+});
+
+router.post("/bill-pay", async (req, res) => {
+  const { error } = validateTransfer(req.body);
+  if (error) return res.status(400).send(`Error: ${error.details[0].message}`);
+
+  if (req.body.receiverId === req.body.initiatorId)
+    return res
+      .status(400)
+      .send("Receiver Id and Initiator Id cannot be the same.");
+
+  const initiator = await Account.findById(req.body.initiatorId).catch((err) =>
+    console.log(err.message)
+  );
+  if (!initiator) return res.status(400).send("Invalid Initiator Account Id");
+
+  const receiver = await Account.findById(req.body.receiverId).catch((err) =>
+    console.log(err.message)
+  );
+  if (!receiver) return res.status(400).send("Invalid Receiver Account Id");
+
+  if (initiator.balance < req.body.amount)
+    return res.status(400).send("Insufficient Funds");
+
+  await initiator
+    .updateOne({ balance: initiator.balance - req.body.amount })
+    .then(async () => {
+      await new Transaction({
+        initiatorId: req.body.initiatorId,
+        receiverId: req.body.receiverId,
+        amount: req.body.amount,
+        type: "Bill Pay",
+      }).save();
+    })
+    .catch((err) => {
+      console.log(err.message);
+      res.status(400).send("Something went wrong. Check the console.");
+    });
+
+  await receiver
+    .updateOne({ balance: receiver.balance + req.body.amount })
+    .then(() => res.send("Bill Pay Successful"))
     .catch((err) => {
       console.log(err.message);
       res.status(400).send("Something went wrong. Check the console.");

@@ -3,6 +3,7 @@ const router = express.Router();
 const { Account, validate, validatePut } = require("../model/Account");
 const { User } = require("../model/User");
 
+
 router.get("/", async (req, res) => {
   if (req.query.userId) {
     await Account.find({ userId: req.query.userId })

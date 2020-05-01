@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const jwt = require("jsonwebtoken");
 
 mongoose.set("useCreateIndex", true);
 
@@ -36,6 +37,10 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+userSchema.methods.createToken = function () {
+  return jwt.sign({ _id: this.id }, "secretKey");
+};
+
 function validatePost(body) {
   const schema = {
     username: Joi.string().required().min(3).max(55),
@@ -43,6 +48,14 @@ function validatePost(body) {
     address: Joi.string().required().max(55),
     securityQuestion: Joi.string().required().min(3).max(55),
     securityQuestionAnswer: Joi.string().required().min(3).max(55),
+  };
+  return Joi.validate(body, schema);
+}
+
+function validateLogin(body) {
+  const schema = {
+    username: Joi.string().required().min(3).max(55),
+    password: Joi.string().required().min(6).max(55),
   };
   return Joi.validate(body, schema);
 }
@@ -78,6 +91,7 @@ function validateSecurityQuestion(body) {
 
 module.exports.User = mongoose.model("user", userSchema);
 module.exports.validatePost = validatePost;
+module.exports.validateLogin = validateLogin;
 module.exports.validateUsername = validateUsername;
 module.exports.validatePassword = validatePassword;
 module.exports.validateAddress = validateAddress;
