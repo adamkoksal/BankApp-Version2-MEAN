@@ -9,7 +9,7 @@ const {
   validateSecurityQuestion,
 } = require("../model/User");
 const { Account } = require("../model/Account");
-const bcrypt = require("bcrypt");
+const bcrypt = require("./node_modules/bcrypt");
 
 router.get("/", async (req, res) => {
   if (req.query.username) {
