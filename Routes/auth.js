@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
     return res.status(400).send("Invalid user password combination");
 
   const token = user.createToken();
-  res.send(token);
+  res.send({ token: token, id: user._id });
 });
 
 module.exports = router;
