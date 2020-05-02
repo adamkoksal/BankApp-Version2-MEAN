@@ -1,4 +1,4 @@
-const express = require("../node_modules/express");
+const express = require("express");
 const router = express.Router();
 const {
   User,
@@ -9,7 +9,7 @@ const {
   validateSecurityQuestion,
 } = require("../model/User");
 const { Account } = require("../model/Account");
-const bcrypt = require("./node_modules/bcrypt");
+const bcrypt = require("bcrypt");
 
 router.get("/", async (req, res) => {
   if (req.query.username) {

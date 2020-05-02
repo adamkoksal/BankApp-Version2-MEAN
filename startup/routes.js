@@ -1,7 +1,7 @@
-const users = require("../Routes/users");
-const accounts = require("../Routes/accounts");
-const transactions = require("../Routes/transactions");
-const auth = require("../Routes/auth");
+const users = require("../routes/users");
+const accounts = require("../routes/accounts");
+const transactions = require("../routes/transactions");
+const auth = require("../routes/auth");
 
 module.exports = function (app) {
   app.use("/api/users", users);
