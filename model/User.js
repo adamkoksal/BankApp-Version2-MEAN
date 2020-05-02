@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.methods.createToken = function () {
-  return jwt.sign({ _id: this.id }, "secretKey");
+  return jwt.sign({ _id: this.id }, process.env.vidly_jwtPrivateKey);
 };
 
 function validatePost(body) {
