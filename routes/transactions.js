@@ -7,6 +7,7 @@ const {
   validateTransfer,
 } = require("../model/Transaction");
 const { Account } = require("../model/Account");
+const BillPay = require("../model/BillPay");
 
 router.get("/:id", async (req, res) => {
   Transaction.find()
@@ -119,7 +120,7 @@ router.post("/bill-pay", async (req, res) => {
   );
   if (!initiator) return res.status(400).send("Invalid Initiator Account Id");
 
-  const receiver = await Account.findById(req.body.receiverId).catch((err) =>
+  const receiver = await BillPay.findById(req.body.receiverId).catch((err) =>
     console.log(err.message)
   );
   if (!receiver) return res.status(400).send("Invalid Receiver Account Id");
@@ -136,15 +137,8 @@ router.post("/bill-pay", async (req, res) => {
         amount: req.body.amount,
         type: "Bill Pay",
       }).save();
+      res.send("Bill Pay Successful");
     })
-    .catch((err) => {
-      console.log(err.message);
-      res.status(400).send("Something went wrong. Check the console.");
-    });
-
-  await receiver
-    .updateOne({ balance: receiver.balance + req.body.amount })
-    .then(() => res.send("Bill Pay Successful"))
     .catch((err) => {
       console.log(err.message);
       res.status(400).send("Something went wrong. Check the console.");
