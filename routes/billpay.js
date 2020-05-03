@@ -8,6 +8,12 @@ router.get("/", async (req, res) => {
     .catch((err) => res.send(err));
 });
 
+router.get("/:id", async (req, res) => {
+  await BillPay.findById(req.params.id)
+    .then((data) => res.send(data))
+    .catch((err) => res.send(err));
+});
+
 router.post("/", async (req, res) => {
   await new BillPay(req.body)
     .save()
