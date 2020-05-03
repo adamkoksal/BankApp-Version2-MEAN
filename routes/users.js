@@ -15,9 +15,10 @@ router.get("/", async (req, res) => {
   if (req.query.username) {
     const user = await User.findOne({
       username: new RegExp("\\b" + req.query.username + "\\b", "i"),
-    }).catch((err) => res.status(400).send(err.message));
-    if (!user) return res.status(400).send("Invalid Username");
-    return res.send(user);
+    })
+    .then(data => res.send(data))
+    .catch((err) => res.status(400).send(err.message));
+    
   } else {
     await User.find()
       .then((data) => res.send(data))
