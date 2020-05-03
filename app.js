@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 
+app.use(cors());
 require("dotenv").config();
 require("./startup/logging")();
 require("./startup/db")();
