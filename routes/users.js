@@ -13,7 +13,7 @@ const bcrypt = require("bcrypt");
 
 router.get("/", async (req, res) => {
   if (req.query.username) {
-    const user = await User.findOne({
+    const user = await User.find({
       username: new RegExp("\\b" + req.query.username + "\\b", "i"),
     })
     .then(data => res.send(data))
