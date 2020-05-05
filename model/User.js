@@ -67,6 +67,7 @@ function validateCheckPassword(body) {
   };
   return Joi.validate(body, schema);
 }
+
 function validateUsername(body) {
   const schema = {
     username: Joi.string().required().min(3).max(55),
@@ -96,6 +97,15 @@ function validateSecurityQuestion(body) {
   return Joi.validate(body, schema);
 }
 
+function validateCheckSQA(body) {
+  const schema = {
+    id: Joi.string().required().min(3).max(55),
+    securityQuestionAnswer: Joi.string().required().min(6).max(55),
+  };
+  return Joi.validate(body, schema);
+}
+
+
 module.exports.User = mongoose.model("user", userSchema);
 module.exports.validatePost = validatePost;
 module.exports.validateLogin = validateLogin;
@@ -103,4 +113,5 @@ module.exports.validateCheckPassword = validateCheckPassword;
 module.exports.validateUsername = validateUsername;
 module.exports.validatePassword = validatePassword;
 module.exports.validateAddress = validateAddress;
-module.exports.validateSecurityQuestion = validateSecurityQuestion;
+module.exports.validateSecurityQuestion = validateSecurityQuestion; 
+module.exports.validateCheckSQA = validateCheckSQA; 

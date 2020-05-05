@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { User, validateLogin, validateCheckPassword } = require("../model/User");
+const {
+  User,
+  validateLogin,
+  validateCheckPassword,
+  validateCheckSQA,
+} = require("../model/User");
 const bcrypt = require("bcrypt");
 
 router.post("/", async (req, res) => {
@@ -30,8 +35,25 @@ router.post("/check-password", async (req, res) => {
   if (!user) return res.send(false);
 
   const isValid = await bcrypt.compare(req.body.password, user.password);
-  if (!isValid)
-    return res.send(false);
+  if (!isValid) return res.send(false);
+
+  res.send(true);
+});
+
+router.post("/check-sqa", async (req, res) => {
+  const { error } = validateCheckSQA(req.body);
+  if (error) return res.status(400).send(`Error: ${error.details[0].message}`);
+
+  let user = await User.findById(req.body.id).catch((err) =>
+    console.log(err.message)
+  );
+  if (!user) return res.send(false);
+
+  const isValid = await bcrypt.compare(
+    req.body.securityQuestionAnswer,
+    user.securityQuestionAnswer
+  );
+  if (!isValid) return res.send(false);
 
   res.send(true);
 });
