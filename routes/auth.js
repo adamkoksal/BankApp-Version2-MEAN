@@ -12,7 +12,7 @@ router.post("/", async (req, res) => {
   const { error } = validateLogin(req.body);
   if (error) return res.status(400).send(`Error: ${error.details[0].message}`);
 
-  let user = await User.findOne({ username: req.body.username }).catch((err) =>
+  let user = await User.findOne({ username: req.body.username.toLowerCase() }).catch((err) =>
     console.log(err.message)
   );
   if (!user) return res.status(400).send("Invalid user password combination");
@@ -48,7 +48,7 @@ router.post("/check-sqa", async (req, res) => {
     console.log(err.message)
   );
   if (!user) return res.send(false);
-// Buraya gozat. buyuk ihtimalle false sorun cikariyo
+
   const isValid = await bcrypt.compare(
     req.body.securityQuestionAnswer,
     user.securityQuestionAnswer
