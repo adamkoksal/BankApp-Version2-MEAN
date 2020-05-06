@@ -8,7 +8,6 @@ import { take } from "rxjs/operators";
   styleUrls: ["./profile.component.css"],
 })
 export class ProfileComponent implements OnInit {
-  // a = {oldpassword: "", newpassword: "", confpassword: "",};
   panelOpenState = false;
   hide = true;
   hide2 = true;
@@ -26,7 +25,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {}
 
   save1(value) {
-    var u = { username: value };
+    var u = { username: value.toLowerCase() };
 
     this.userService
       .changeUsername(u)
