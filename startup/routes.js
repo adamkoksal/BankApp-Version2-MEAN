@@ -9,8 +9,5 @@ module.exports = function (app) {
   app.use("/api/accounts", accounts);
   app.use("/api/transactions", transactions);
   app.use("/api/auth", auth);
-
-  // Temporary
   app.use("/api/bill-pay", require("../routes/billpay"));
-  // Temporary
 };

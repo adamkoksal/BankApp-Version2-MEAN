@@ -1,0 +1,50 @@
+body {
+    height: 2000px;
+  }
+
+  
+#expandable {
+    font-size: 50px;
+    text-align: center; 
+    padding: 30px 0;
+    margin-top: 220px;
+}
+
+.card {
+    border-color: #bc5090;
+    background-color: #fefeff;
+    cursor: pointer;
+    margin: 20px 0;
+}
+
+.stretched-link {
+    outline: 0;
+ }
+
+.card-body h2 {
+    font-size: 1.85rem;
+}
+
+.card-body p {
+    font-size: 0.80rem;
+}
+
+.card:hover {
+    border: solid 1.5px #d45500;
+    background-color: #f8f8fb;
+}
+
+
+#btn-crt-ac {
+    width: 95%; 
+    height: 60px; 
+    font-size: 20px;
+    display:block;
+    margin-top: 40px;
+    border-color: #bc5090;
+    background-color: #fefeff;
+}
+
+#btn-crt-ac:hover {
+    border: solid 1.5px #d45500;
+}

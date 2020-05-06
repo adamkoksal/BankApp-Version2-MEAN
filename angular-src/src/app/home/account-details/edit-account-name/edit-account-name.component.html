@@ -1,0 +1,15 @@
+<form #accountNameForm="ngForm" (ngSubmit)="save(accountNameForm.value)">
+    <mat-form-field class="example-form-field">
+        <mat-label>Account Name</mat-label>
+        <input matInput type="text" [(ngModel)]="account.name" #name="ngModel" name="name" id="name" required>
+
+        <button type="button" mat-button *ngIf="account.name" 
+        matSuffix mat-icon-button aria-label="Clear" (click)="account.name=''">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+    
+    <button type="submit" [disabled]="!accountNameForm.valid" mat-button color="primary" mat-button mat-dialog-close>Submit</button>
+    <button type="button" mat-button mat-dialog-close>Cancel</button>
+</form>
+

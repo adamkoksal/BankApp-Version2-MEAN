@@ -48,7 +48,7 @@ router.post("/check-sqa", async (req, res) => {
     console.log(err.message)
   );
   if (!user) return res.send(false);
-
+// Buraya gozat. buyuk ihtimalle false sorun cikariyo
   const isValid = await bcrypt.compare(
     req.body.securityQuestionAnswer,
     user.securityQuestionAnswer

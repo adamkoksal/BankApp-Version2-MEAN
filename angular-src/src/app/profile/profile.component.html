@@ -1,0 +1,276 @@
+<div class="expansion-panel container-sm">
+  <h1 class="mat-display-1">Edit User Information</h1>
+  <mat-accordion>
+    <div class="mat-elevation-z18">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header collapsedHeight="70px">
+          <mat-panel-title>
+            Username
+          </mat-panel-title>
+          <mat-panel-description style="margin-left: 26px;">
+            Change Username
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            [(ngModel)]="user.username"
+            #username="ngModel"
+            id="username"
+            autocomplete="off"
+            required
+            minlength="3"
+            uniqueUsername
+          />
+          <mat-error *ngIf="username.invalid">
+            <div *ngIf="username.errors.required">Required</div>
+            <div *ngIf="username.errors.minlength">Minimum 3 characters</div>
+            <div *ngIf="username.errors['uniqueUsername']">
+              Username is taken
+            </div>
+          </mat-error>
+        </mat-form-field>
+        <button
+          mat-button
+          color="primary"
+          [disabled]="username.invalid"
+          (click)="save1(username.value)"
+        >
+          Submit
+        </button>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header collapsedHeight="70px">
+          <mat-panel-title>
+            Password
+          </mat-panel-title>
+          <mat-panel-description style="margin-left: 27px;">
+            Change Password
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div>
+          <mat-form-field>
+            <mat-label>Enter your old password</mat-label>
+            <input
+              matInput
+              [type]="hide ? 'password' : 'text'"
+              ngModel
+              #oldpassword="ngModel"
+              name="oldpassword"
+              required
+              minlength="6"
+              oldPassword
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+            </button>
+            <mat-error *ngIf="oldpassword.invalid">
+              <div *ngIf="oldpassword.errors.required">Required</div>
+              <div *ngIf="oldpassword.errors.minlength">
+                Minimum 6 characters
+              </div>
+              <div *ngIf="oldpassword.errors.oldPassword">
+                Password is wrong
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <br />
+
+        <form>
+          <div>
+            <mat-form-field>
+              <mat-label>Enter a new password</mat-label>
+              <input
+                matInput
+                [type]="hide2 ? 'password' : 'text'"
+                ngModel
+                #newpassword="ngModel"
+                name="newpassword"
+                required
+                minlength="6"
+              />
+              <button
+                mat-icon-button
+                matSuffix
+                (click)="hide2 = !hide2"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide"
+              >
+                <mat-icon>{{
+                  hide2 ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </button>
+              <mat-error *ngIf="newpassword.invalid">
+                <div *ngIf="newpassword.errors.required">Required</div>
+                <div *ngIf="newpassword.errors.minlength">
+                  Minimum 6 characters
+                </div>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <br />
+          <div>
+            <mat-form-field>
+              <mat-label>Confirm new password</mat-label>
+              <input
+                matInput
+                [type]="hide3 ? 'password' : 'text'"
+                ngModel
+                #confpassword="ngModel"
+                name="confpassword"
+                required
+                minlength="6"
+                compare="newpassword"
+              />
+              <button
+                mat-icon-button
+                matSuffix
+                (click)="hide3 = !hide3"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide"
+              >
+                <mat-icon>{{
+                  hide3 ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </button>
+              <mat-error *ngIf="confpassword.invalid">
+                <div *ngIf="confpassword.errors.required">Required</div>
+                <div *ngIf="confpassword.errors.minlength">
+                  Minimum 6 characters
+                </div>
+                <div *ngIf="confpassword.errors.compare">
+                  Passwords don't match
+                </div>
+              </mat-error>
+            </mat-form-field>
+            <button
+              mat-button
+              color="primary"
+              (click)="save2(newpassword.value)"
+              [disabled]="
+                oldpassword.invalid ||
+                newpassword.invalid ||
+                confpassword.invalid
+              "
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header collapsedHeight="70px">
+          <mat-panel-title>
+            Address
+          </mat-panel-title>
+          <mat-panel-description style="margin-left: 33px;">
+            Change Address
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <mat-form-field>
+          <mat-label>Address</mat-label>
+          <input
+            matInput
+            [(ngModel)]="user.address"
+            #address="ngModel"
+            id="address"
+            autocomplete="off"
+            required
+          />
+          <mat-error *ngIf="address.invalid">Required</mat-error>
+        </mat-form-field>
+        <button
+          mat-button
+          color="primary"
+          [disabled]="address.invalid"
+          (click)="save3(address.value)"
+        >
+          Submit
+        </button>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header collapsedHeight="70px">
+          <mat-panel-title>
+            Security Question
+          </mat-panel-title>
+          <mat-panel-description>
+            Change security question
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div>
+          <mat-form-field style="width: 350px;">
+            <mat-label>Security Question</mat-label>
+            <input
+              matInput
+              [(ngModel)]="user.securityQuestion"
+              #securityQuestion="ngModel"
+              id="securityQuestion"
+              autocomplete="off"
+              required
+              minlength="3"
+              maxlength="55"
+            />
+            <mat-error *ngIf="securityQuestion.invalid">
+              <div *ngIf="securityQuestion.errors.required">
+                Required
+              </div>
+              <div *ngIf="securityQuestion.errors.minlength">
+                Min 3 chars
+              </div>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field style="width: 350px;">
+            <mat-label>Security Question Answer</mat-label>
+            <input
+              matInput
+              ngModel
+              #securityQuestionAnswer="ngModel"
+              id="securityQuestionAnswer"
+              autocomplete="off"
+              required
+              minlength="3"
+              maxlength="55"
+            />
+            <mat-error *ngIf="securityQuestionAnswer.invalid">
+              <div *ngIf="securityQuestionAnswer.errors.required">
+                Required
+              </div>
+              <div *ngIf="securityQuestionAnswer.errors.minlength">
+                Min 3 chars
+              </div>
+            </mat-error>
+          </mat-form-field>
+          <button
+            mat-button
+            color="primary"
+            (click)="
+              save4(securityQuestion.value, securityQuestionAnswer.value)
+            "
+            [disabled]="
+              securityQuestion.invalid || securityQuestionAnswer.invalid
+            "
+          >
+            Submit
+          </button>
+        </div>
+      </mat-expansion-panel>
+    </div>
+  </mat-accordion>
+</div>

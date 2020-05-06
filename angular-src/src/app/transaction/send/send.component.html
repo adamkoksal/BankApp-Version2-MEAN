@@ -1,0 +1,123 @@
+<div class="container-sm">
+  <h1 class="mat-display-1">Send Money To Other Users</h1>
+
+  <form #f2="ngForm" (ngSubmit)="submit(f2.value)">
+    <div class="row">
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Send From</mat-label>
+          <mat-select
+            matInput
+            required
+            ngModel
+            #accountFrom="ngModel"
+            name="accountFrom"
+          >
+            <mat-option> None </mat-option>
+            <mat-option *ngFor="let account of accounts" [value]="account">
+              {{ account.name }} :
+              {{ account.balance | currency: "USD":"symbol" }}</mat-option
+            >
+          </mat-select>
+          <mat-error *ngIf="accountFrom.invalid">Required</mat-error>
+        </mat-form-field>
+
+        <br />
+        <br />
+
+        <mat-form-field>
+          <mat-label>Amount</mat-label>
+          <input
+            matInput
+            type="number"
+            class="example-right-align"
+            autocomplete="off"
+            ngModel
+            #amount="ngModel"
+            name="amount"
+            id="amount"
+            required
+          />
+          <span matPrefix>$&nbsp;</span>
+          <span matSuffix>.00</span>
+          <mat-error *ngIf="amount.invalid">Required</mat-error>
+        </mat-form-field>
+        <div
+          *ngIf="accountFrom.value?.balance < amount.value"
+          class="text-danger"
+          style="font-size: 12px; margin-top: 0;"
+        >
+          Insufficient Funds
+        </div>
+      </div>
+
+      <div class="col">
+        <mat-form-field style="width: 250px;">
+          <mat-label>Receiver Username</mat-label>
+          <input
+            matInput
+            ngModel
+            #username="ngModel"
+            name="username"
+            id="username"
+            autocomplete="off"
+            required
+            transferUsername
+          />
+          <mat-error *ngIf="username.invalid">
+            <div *ngIf="username.errors.required">Required</div>
+            <div *ngIf="username.errors.transferUsername">Invalid username</div>
+          </mat-error>
+        </mat-form-field>
+
+        <br />
+        <br />
+
+        <mat-form-field style="width: 250px;">
+          <mat-label>Receiver Account ID</mat-label>
+          <input
+            matInput
+            ngModel
+            #accountId="ngModel"
+            name="accountId"
+            id="accountId"
+            autocomplete="off"
+            transferAccountid="username"
+            required
+          />
+          <mat-error *ngIf="accountId.invalid">
+            <div *ngIf="accountId.errors.required">Required</div>
+            <div *ngIf="accountId.errors.transferAccountid">
+              Invalid Account ID
+            </div>
+          </mat-error>
+        </mat-form-field>
+        <div *ngIf="username.touched && accountId.touched">
+          <div
+            *ngIf="username.invalid"
+            class="text-danger"
+            style="font-size: 12px; margin-top: 0;"
+          >
+            Invalid
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <button
+          mat-button
+          color="primary"
+          style="margin-top: 100px;"
+          [disabled]="
+            accountFrom.invalid ||
+            amount.invalid ||
+            username.invalid ||
+            accountId.invalid ||
+            accountFrom.value?.balance < amount.value
+          "
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

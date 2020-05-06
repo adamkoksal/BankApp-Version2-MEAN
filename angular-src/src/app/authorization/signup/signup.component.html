@@ -1,0 +1,147 @@
+<button
+  mat-button
+  type="button"
+  routerLink="/login"
+  color="primary"
+  style="margin-top: -250px; margin-bottom: 20px; width: 100px; height: 40px; font-size: 20px;"
+>
+  LOGIN
+</button>
+<mat-card class="login-card mx-auto mat-elevation-z7" style="height: 470px;">
+  <div style="margin-top: 20px; height: 90px;">
+    <mat-card-title>
+      <p
+        class="mat-display-1"
+        style="font-weight: bold; color:#6267af; text-align: center;"
+      >
+        SIGN UP
+      </p>
+    </mat-card-title>
+  </div>
+
+  <form #f="ngForm" (ngSubmit)="submit(f.value)">
+    <mat-horizontal-stepper linear #stepper>
+      <mat-step>
+        <ng-template matStepLabel>Fill out your username</ng-template>
+        <br /><br />
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            required
+            ngModel
+            #username="ngModel"
+            name="username"
+            minlength="3"
+            uniqueUsername
+          />
+          <mat-error *ngIf="username.invalid">
+            <div *ngIf="username.errors.required">Required</div>
+            <div *ngIf="username.errors.minlength">Minimum 3 characters</div>
+            <div *ngIf="username.errors.uniqueUsername">Username taken</div>
+          </mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-button type="button" matStepperNext>Next</button>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Fill out your password</ng-template>
+        <br /><br />
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            ngModel
+            #password="ngModel"
+            name="password"
+            type="password"
+            required
+            minlength="6"
+          />
+          <mat-error *ngIf="password.invalid">
+            <div *ngIf="password.errors.required">Required</div>
+            <div *ngIf="password.errors.minlength">Minimum 6 characters</div>
+          </mat-error>
+        </mat-form-field>
+        <br />
+        <br />
+        <mat-form-field>
+          <mat-label>Confirm Password</mat-label>
+          <input
+            matInput
+            required
+            ngModel
+            #conPassword="ngModel"
+            name="conPassword"
+            type="password"
+            compare="password"
+            minlength="6"
+          />
+          <mat-error *ngIf="conPassword.invalid">
+            <div *ngIf="conPassword.errors.required">Required</div>
+            <div *ngIf="conPassword.errors.compare">Passwords don't match</div>
+            <div *ngIf="conPassword.errors.minlength">Minimum 6 characters</div>
+          </mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-button type="button" matStepperPrevious>Back</button>
+          <button mat-button type="button" matStepperNext>Next</button>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Fill out your address</ng-template>
+        <br /><br />
+        <mat-form-field>
+          <mat-label>Address</mat-label>
+          <input
+            matInput
+            ngModel
+            #address="ngModel"
+            name="address"
+            required
+          />
+          <mat-error *ngIf="address.invalid">Required</mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-button type="button" matStepperPrevious>Back</button>
+          <button mat-button type="button" matStepperNext>Next</button>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Fill out Security Question</ng-template>
+        <br /><br />
+        <mat-form-field>
+          <mat-label>Security Question</mat-label>
+          <input
+            matInput
+            ngModel
+            #securityQuestion="ngModel"
+            name="securityQuestion"
+            required
+          />
+          <mat-error *ngIf="securityQuestion.invalid">Required</mat-error>
+        </mat-form-field>
+        <br />
+        <br />
+        <mat-form-field>
+          <mat-label>Security Question Answer</mat-label>
+          <input
+            matInput
+            ngModel
+            #securityQuestionAnswer="ngModel"
+            name="securityQuestionAnswer"
+            required
+          />
+          <mat-error *ngIf="securityQuestionAnswer.invalid">Required</mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-button type="button" matStepperPrevious>Back</button>
+          <button mat-button type="submit" [disabled]="f.invalid">
+            Submit
+          </button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </form>
+</mat-card>

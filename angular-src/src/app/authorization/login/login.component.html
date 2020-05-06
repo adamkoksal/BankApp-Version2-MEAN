@@ -1,0 +1,74 @@
+<div *ngIf="error" class="alert">
+  <span
+    class="closebtn"
+    onclick="this.parentElement.style.display='none';"
+    >&times;</span 
+  >
+  Wrong username and password combination
+</div>
+
+<mat-card class="login-card mx-auto mat-elevation-z10" style="margin-top: 30vh;">
+  <div style=" height: 90px; margin-top: 12px;">
+    <mat-card-title
+      ><p class="mat-display-1" style="font-weight: bold; color:#6267af;">
+        LOGIN
+      </p></mat-card-title
+    >
+  </div>
+  <mat-card-content>
+    <form #f3="ngForm" (ngSubmit)="login(f3.value)">
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input
+          matInput
+          autocomplete="off"
+          [(ngModel)]="a.username"
+          #username="ngModel"
+          name="username"
+          required
+        />
+        <mat-error *ngIf="username.invalid">Required</mat-error>
+      </mat-form-field>
+
+      <p>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input
+            type="password"
+            matInput
+            [(ngModel)]="a.password" 
+            #password="ngModel"
+            name="password" 
+            required
+          />
+          <mat-error *ngIf="password.invalid">Required</mat-error>
+        </mat-form-field>
+      </p>
+      <button
+        mat-button
+        type="button"
+        color="primary"
+        routerLink="/forgot-password"
+        style="margin-left: -15px; font-size: 13px; outline: none;"
+      >
+        Forgot password?
+      </button>
+      <div>
+        <button
+          mat-stroked-button
+          class="mat-elevation-z4 mx-auto"
+          id="btn"
+          color="primary"
+          [disabled]="username.invalid || password.invalid"
+        >
+          Login
+        </button>
+      </div>
+
+      <h3 class="mat-h3" style="margin-top: 20px; text-align: center;">
+        Not a member?
+        <a routerLink="/signup" style="text-decoration: none;"> Sign Up</a>
+      </h3>
+    </form>
+  </mat-card-content>
+</mat-card>

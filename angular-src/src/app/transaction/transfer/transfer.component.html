@@ -1,0 +1,96 @@
+<div class="container-sm">
+  <form #f="ngForm" (ngSubmit)="submit(f.value)">
+    <h1 class="mat-display-1">Transfer Between Accounts</h1>
+
+    <mat-form-field style="width: 250px;">
+      <mat-label>Transfer From</mat-label>
+      <mat-select
+        matInput
+        [(ngModel)]="a.accountFrom"
+        #accountFrom="ngModel"
+        id="accountFrom"
+        name="accountFrom"
+        required
+      >
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let account of accounts" [value]="account"
+          >{{ account.name }} :
+          {{ account.balance | currency: "USD":"symbol" }}</mat-option
+        >
+      </mat-select>
+      <mat-error *ngIf="accountFrom.invalid">Required</mat-error>
+    </mat-form-field>
+
+    <br />
+
+    <mat-form-field style="width: 250px;">
+      <mat-label>Transfer To</mat-label>
+      <mat-select
+        [(ngModel)]="a.accountTo"
+        #accountTo="ngModel"
+        id="accountTo"
+        name="accountTo"
+        required
+      >
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let account of accounts" [value]="account._id">
+          {{ account.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="accountTo.invalid">Required</mat-error>
+    </mat-form-field>
+    <div *ngIf="accountFrom.value && accountTo.valid">
+      <div
+        *ngIf="accountFrom.value._id === accountTo.value"
+        class="text-danger"
+        style="font-size: 12px; margin-top: 0;"
+      >
+        You can't choose same account
+      </div>
+    </div>
+
+    <br />
+
+    <mat-form-field style="width: 250px;">
+      <mat-label>Amount</mat-label>
+      <input
+        matInput
+        type="number"
+        class="example-right-align"
+        autocomplete="off"
+        [(ngModel)]="a.amount"
+        #amount="ngModel"
+        name="amount"
+        id="amount"
+        required
+      />
+      <span matPrefix>$&nbsp;</span>
+      <span matSuffix>.00</span>
+      <mat-error *ngIf="accountFrom.invalid">Required</mat-error>
+    </mat-form-field>
+    <div
+      *ngIf="accountFrom.value?.balance < amount.value"
+      class="text-danger"
+      style="font-size: 12px; margin-top: 0;"
+    >
+      Insufficient Funds
+    </div>
+
+    <br />
+
+    <button
+      mat-button
+      color="primary"
+      *ngIf="accountFrom.value"
+      [disabled]="
+        accountFrom.invalid ||
+        accountTo.invalid ||
+        amount.invalid ||
+        accountFrom.value._id === accountTo.value ||
+        accountFrom.value.balance < amount.value
+      "
+    >
+      Submit
+    </button>
+  </form>
+</div>

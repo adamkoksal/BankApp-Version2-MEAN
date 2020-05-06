@@ -100,7 +100,7 @@ function validateSecurityQuestion(body) {
 function validateCheckSQA(body) {
   const schema = {
     id: Joi.string().required().min(3).max(55),
-    securityQuestionAnswer: Joi.string().required().min(6).max(55),
+    securityQuestionAnswer: Joi.string().required().min(3).max(55),
   };
   return Joi.validate(body, schema);
 }

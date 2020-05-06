@@ -1,0 +1,28 @@
+<div class="container" id="expandable">
+  <p>Hello, {{ user?.username | uppercase }}</p>
+</div>
+
+<mat-card
+  class="card mx-auto mat-elevation-z12"
+  style="width: 95%;"
+  *ngFor="let account of account$"
+>
+  <div
+    class="card-body stretched-link"
+    [routerLink]="['/home/account-details', account._id]"
+    >
+    <h2 class="card-title">{{ account.balance | currency: "USD":"symbol" }}</h2>
+    <h6 class="card-subtitle mb-2 text-muted">{{ account.name }}</h6>
+    <p class="card-text">See transaction history</p>
+  </div>
+</mat-card>
+
+<button
+  mat-stroked-button
+  class="mat-elevation-z18 mx-auto"
+  id="btn-crt-ac"
+  color="primary"
+  (click)="openDialog()"
+>
+  Create New Account
+</button>

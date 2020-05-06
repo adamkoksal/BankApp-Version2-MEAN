@@ -1,0 +1,33 @@
+<div class="fixed-top">
+  <nav class="navbar navbar-light ">
+    <div class="nav-item a">
+      <a routerLink="/home">
+        <img src="../../../assets/img/default.png" width="175" />
+      </a>
+    </div>
+    <button *ngIf="loggedIn" mat-button style="outline: none; margin-right: 45px;" (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+      Logout
+    </button>
+  </nav>
+
+  <div *ngIf="loggedIn">
+    <ul class="nav nav-tabs nav-justified">
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink="/home"
+          >Home</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink="/transaction"
+          >Transaction</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink="/profile"
+          >Profile</a
+        >
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+<div class="container-sm">
+  <h1 class="mat-display-1">Pay Your Bill</h1>
+
+  <form #f="ngForm" (ngSubmit)="submit(f.value)">
+    <mat-form-field>
+      <mat-label>Send From</mat-label>
+      <mat-select
+        matInput
+        required
+        ngModel
+        #accountFrom="ngModel"
+        name="accountFrom"
+      >
+        <mat-option> None </mat-option>
+        <mat-option *ngFor="let account of accounts" [value]="account">
+          {{ account.name }} :
+          {{ account.balance | currency: "USD":"symbol" }}</mat-option
+        >
+      </mat-select>
+      <mat-error *ngIf="accountFrom.invalid">Required</mat-error>
+    </mat-form-field>
+
+    <br />
+
+    <mat-form-field>
+      <mat-label>Pay To</mat-label>
+      <mat-select
+        matInput
+        required
+        ngModel
+        #accountTo="ngModel"
+        name="accountTo"
+      >
+        <mat-option> None </mat-option>
+        <mat-option *ngFor="let company of companies" [value]="company._id">
+          {{ company.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="accountTo.invalid">Required</mat-error>
+    </mat-form-field>
+
+    <br />
+
+    <mat-form-field>
+      <mat-label>Amount</mat-label>
+      <input
+        matInput
+        type="number"
+        autocomplete="off"
+        ngModel
+        #amount="ngModel"
+        name="amount"
+        id="amount"
+        required
+      />
+      <span matPrefix>$&nbsp;</span>
+      <span matSuffix>.00</span>
+      <mat-error *ngIf="amount.invalid">Required</mat-error>
+    </mat-form-field>
+    <div
+      *ngIf="accountFrom.value?.balance < amount.value"
+      class="text-danger"
+      style="font-size: 12px; margin-top: 0;"
+    >
+      Insufficient Funds
+    </div>
+
+    <br />
+
+    <button
+      mat-button
+      color="primary"
+      [disabled]="
+        accountFrom.invalid ||
+        accountTo.invalid ||
+        amount.invalid ||
+        accountFrom.value?.balance < amount.value
+      "
+    >
+      Submit
+    </button>
+  </form>
+</div>

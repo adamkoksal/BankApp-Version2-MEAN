@@ -52,6 +52,7 @@ router.post("/", async (req, res) => {
     .then(async (data) => {
       await new Account({
         userId: data._id,
+        balance: 10000,
         name: "Checking",
       }).save();
       await new Account({

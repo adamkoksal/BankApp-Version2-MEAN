@@ -1,0 +1,43 @@
+.navbar {
+    padding: 20px 0 ;
+    border-bottom: solid 1.5px #8186d5;
+}
+
+.a {
+    margin: 0 5vw;
+}
+
+a {
+    color: #ff6361;
+}
+
+
+.nav-link {
+    margin: 0 0.75vw;
+}
+
+.nav-item .active {
+    border-color: #d45500;
+    border-bottom-color: transparent;
+}
+
+.nav-link.active {
+    color: black;
+}
+
+.nav-item a:hover {
+    border-color: #ff6361;
+    border-bottom-color: transparent;
+} 
+
+.nav {
+    background-color: #fff;
+    padding-top: 35px;
+    border-color: #bc5090;
+}
+
+
+
+
+
+
